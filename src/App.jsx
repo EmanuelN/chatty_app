@@ -50,6 +50,7 @@ class App extends Component {
   }
 
   newPost = (content, user) =>{
+
     const newid = this.state.messages.length * 2
     const newMessage = {
         id: newid,
@@ -59,7 +60,7 @@ class App extends Component {
     if (user){
       newMessage.username = user;
     }
-
+    this.socket.send(JSON.stringify(newMessage))
     const oldMessages = this.state.messages
     const newMessages = oldMessages.concat(newMessage)
     this.setState({messages: newMessages})
