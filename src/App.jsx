@@ -5,6 +5,7 @@ import MessageList from './MessageList.jsx';
 class App extends Component {
   constructor(props){
     super(props);
+    this.socket = new WebSocket("ws://localhost:3001")
     this.state = {
       currentUser: {name: "Emanuel"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
@@ -22,6 +23,9 @@ class App extends Component {
     }
   }
   componentDidMount() {
+    this.socket.onopen = (e) =>{
+      console.log('Connected to server');
+    }
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
