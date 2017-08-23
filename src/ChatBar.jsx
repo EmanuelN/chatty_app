@@ -4,13 +4,13 @@ class Chatbar extends Component {
   constructor(props){
     super(props);
     this.state ={
-      username: ''
+      username: this.props.currentUser.name
     }
   }
   render() {
     return (
       <footer className="chatbar">
-          <input name= 'username' className="chatbar-username" onChange={this.typingUsername} placeholder={this.props.currentUser.name}/>
+          <input name= 'username' value={this.state.username}className="chatbar-username" onChange={this.typingUsername} placeholder={this.props.currentUser.name}/>
           <input name= 'message'  onKeyUp={this.typingPost} className="chatbar-message" placeholder="Type a message and hit ENTER" />
       </footer>
     );
