@@ -1,19 +1,11 @@
-React Boilerplate
+Chatty Client
 =====================
 
-A minimal and light dev environment for ReactJS.
+A simple chat program built with React
 
 ### Usage
 
-Clone the boilerplate and create your own git repo.
-
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+Clone this repo and the server repo from https://github.com/EmanuelN/chattyserver
 
 Install the dependencies and start the server.
 
@@ -23,19 +15,12 @@ npm start
 open http://localhost:3000
 ```
 
-### Static Files
+### Features
 
-You can store static files like images, fonts, etc in the `build` folder.
+You can post images with .jpg, .gif or .png extensions.
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
+You can also post movies with the .webm extension
 
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
 
 ### Dependencies
 

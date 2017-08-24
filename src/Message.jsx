@@ -13,7 +13,20 @@ class Message extends Component {
         color: this.props.message.userColor
       }
       const imgRegex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?[.png|.jpg|.gif]/
-      if (imgRegex.test(this.props.message.content)){
+      const movieRegex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?[.webm]/
+      if (movieRegex.test(this.props.message.content)){
+        const movieURL = this.props.message.content.match(movieRegex)[0];
+        // removes url from content
+        const otherContent = this.props.message.content.replace(movieRegex, '');
+        return (
+          <div className='message'>
+            <span className='message-username' style={style}>{this.props.message.username}</span>
+            <span className='message-content'>{otherContent}<br/>
+              <video src={movieURL} controls></video>
+            </span>
+          </div>
+        );
+      } else if (imgRegex.test(this.props.message.content)){
         const imgURL = this.props.message.content.match(imgRegex)[0];
         // removes url from content
         const otherContent = this.props.message.content.replace(imgRegex, '');

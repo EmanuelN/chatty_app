@@ -50,10 +50,6 @@ class App extends Component {
       </div>
     );
   }
-  scrollToBottom = () => {
-    const node = ReactDOM.findDOMNode(this.messagesEnd);
-    node.scrollIntoView({ behavior: "smooth" });
-  }
   //When a user changes their name
   changeName = (user)=>{
     if (user && user !== this.state.currentUser.name){
