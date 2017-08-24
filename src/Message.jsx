@@ -12,7 +12,7 @@ class Message extends Component {
       const style = {
         color: this.props.message.userColor
       }
-      const imgRegex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?[.png|.jpg|.gif]/
+      const imgRegex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?\.[gifjpn]{3}/
       const movieRegex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?\.webm/
       if (movieRegex.test(this.props.message.content)){
         const movieURL = this.props.message.content.match(movieRegex)[0];
