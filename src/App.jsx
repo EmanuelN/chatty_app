@@ -19,7 +19,6 @@ class App extends Component {
 
     this.socket.onmessage = (event)=>{
       const eventJSON = JSON.parse(event.data);
-      console.log('received ', eventJSON)
       switch(eventJSON.type){
         case 'userCount':
           this.setState({userCount: eventJSON.number})
@@ -41,7 +40,6 @@ class App extends Component {
     console.log('componentDidMount <App />');
   }
   render() {
-    console.log(this.state.userCount)
     return (
       <div>
         <nav className='navbar'>
@@ -57,7 +55,9 @@ class App extends Component {
     if (user && user !== this.state.currentUser.name){
       const nameChange = {
         type: "postNotification",
-        content: `${this.state.currentUser.name} has changed their name to ${user}`
+        content: {
+          oldUser: this.state.currentUser.name,
+          newUser: user}
       }
       this.socket.send(JSON.stringify(nameChange))
       this.state.currentUser.name = user
