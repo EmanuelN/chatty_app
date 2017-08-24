@@ -9,7 +9,7 @@ class App extends Component {
     this.state = {
       currentUser: {name: 'Emanuel'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [], //messages from the server will be stored here as they arrive
-      notifications: []
+      userCount: 0
     }
   }
   componentDidMount() {
@@ -19,12 +19,17 @@ class App extends Component {
 
     this.socket.onmessage = (event)=>{
       const eventJSON = JSON.parse(event.data);
-      // switch(eventJSON.type){
-      //   case "incomingMessage":
+      console.log('received ', eventJSON)
+      switch(eventJSON.type){
+        case 'userCount':
+          this.setState({userCount: eventJSON.number})
+        break;
+        default:
           const oldMessages = this.state.messages;
           const newMessages = oldMessages.concat(eventJSON);
           this.setState({messages: newMessages});
-        // break;
+        break;
+      }
         // case "incomingNotification":
         //   let oldMessages = this.state.messages;
         //   let newMessages = oldMessages.concat(eventJSON);
@@ -36,10 +41,12 @@ class App extends Component {
     console.log('componentDidMount <App />');
   }
   render() {
+    console.log(this.state.userCount)
     return (
       <div>
         <nav className='navbar'>
           <a href="/" className='navbar-brand'>Chatty</a>
+          <div className='userCount'>{this.state.userCount} user(s) online</div>
         </nav>
         <MessageList messages={this.state.messages} notifications={this.state.notifications}/>
         <ChatBar newPost={this.newPost} currentUser={this.state.currentUser} changeName={this.changeName}/>
