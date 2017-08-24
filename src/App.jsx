@@ -7,7 +7,7 @@ class App extends Component {
     super(props);
     this.socket = new WebSocket('ws://localhost:3001')
     this.state = {
-      currentUser: {name: 'Emanuel'}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: 'Anon'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [], //messages from the server will be stored here as they arrive
       userCount: 0
     }
@@ -36,7 +36,6 @@ class App extends Component {
         // break;
       // }
     }
-
     console.log('componentDidMount <App />');
   }
   render() {
@@ -50,6 +49,10 @@ class App extends Component {
         <ChatBar newPost={this.newPost} currentUser={this.state.currentUser} changeName={this.changeName}/>
       </div>
     );
+  }
+  scrollToBottom = () => {
+    const node = ReactDOM.findDOMNode(this.messagesEnd);
+    node.scrollIntoView({ behavior: "smooth" });
   }
   //When a user changes their name
   changeName = (user)=>{
