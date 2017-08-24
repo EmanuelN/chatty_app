@@ -5,10 +5,11 @@ import MessageList from './MessageList.jsx';
 class App extends Component {
   constructor(props){
     super(props);
-    this.socket = new WebSocket('ws://192.168.1.125:3001')
+    this.socket = new WebSocket('ws://localhost:3001')
     this.state = {
       currentUser: {name: 'Emanuel'}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [] //messages from the server will be stored here as they arrive
+      messages: [], //messages from the server will be stored here as they arrive
+      notifications: []
     }
   }
   componentDidMount() {
@@ -18,9 +19,18 @@ class App extends Component {
 
     this.socket.onmessage = (event)=>{
       const eventJSON = JSON.parse(event.data);
-      const oldMessages = this.state.messages
-      const newMessages = oldMessages.concat(eventJSON)
-      this.setState({messages: newMessages})
+      // switch(eventJSON.type){
+      //   case "incomingMessage":
+          const oldMessages = this.state.messages;
+          const newMessages = oldMessages.concat(eventJSON);
+          this.setState({messages: newMessages});
+        // break;
+        // case "incomingNotification":
+        //   let oldMessages = this.state.messages;
+        //   let newMessages = oldMessages.concat(eventJSON);
+        //   this.setState({messages: newMessages});
+        // break;
+      // }
     }
 
     console.log('componentDidMount <App />');
@@ -31,21 +41,31 @@ class App extends Component {
         <nav className='navbar'>
           <a href="/" className='navbar-brand'>Chatty</a>
         </nav>
-        <MessageList messages={this.state.messages}/>
-        <ChatBar newPost={this.newPost} currentUser={this.state.currentUser}/>
+        <MessageList messages={this.state.messages} notifications={this.state.notifications}/>
+        <ChatBar newPost={this.newPost} currentUser={this.state.currentUser} changeName={this.changeName}/>
       </div>
     );
   }
-
+  changeName = (user)=>{
+    if (user && user !== this.state.currentUser.name){
+      const nameChange = {
+        type: "postNotification",
+        content: `${this.state.currentUser.name} has changed their name to ${user}`
+      }
+      this.socket.send(JSON.stringify(nameChange))
+      this.state.currentUser.name = user
+    }
+  }
   newPost = (content, user)=>{
+
     if (/\S/.test(content)) {
       const newMessage = {
+            type: "postMessage",
             username: 'Anonymous',
             content: content
           }
-        if (user){
-          newMessage.username = user;
-          this.state.currentUser.name = user
+        if(this.state.currentUser.name !== ''){
+          newMessage.username = this.state.currentUser.name
         }
         this.socket.send(JSON.stringify(newMessage))
 

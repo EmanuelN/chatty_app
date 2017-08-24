@@ -10,14 +10,16 @@ class Chatbar extends Component {
   render() {
     return (
       <footer className="chatbar">
-          <input name= 'username' value={this.state.username}className="chatbar-username" onChange={this.typingUsername} placeholder={this.props.currentUser.name}/>
+          <input name= 'username' onKeyUp={this.typingUsername} value={this.state.username}className="chatbar-username" onChange={this.typingUsername} placeholder={this.props.currentUser.name}/>
           <input name= 'message'  onKeyUp={this.typingPost} className="chatbar-message" placeholder="Type a message and hit ENTER" />
       </footer>
     );
   }
+
   typingPost = (e)=>{
     e.preventDefault()
     if (e.key === 'Enter'){
+      this.props.changeName(this.state.username)
       this.props.newPost(e.target.value, this.state.username);
       e.target.value='';
     }
@@ -26,6 +28,10 @@ class Chatbar extends Component {
     e.preventDefault();
       const newUser = e.target.value;
       this.setState({username: newUser});
+      if (e.key === 'Enter'){
+        this.props.changeName(e.target.value)
+      }
+
   }
 }
 export default Chatbar;
