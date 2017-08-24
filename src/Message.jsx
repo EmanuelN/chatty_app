@@ -15,6 +15,7 @@ class Message extends Component {
       const imgRegex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?[.png|.jpg|.gif]/
       if (imgRegex.test(this.props.message.content)){
         const imgURL = this.props.message.content.match(imgRegex)[0];
+        // removes url from content
         const otherContent = this.props.message.content.replace(imgRegex, '');
         return (
           <div className='message'>

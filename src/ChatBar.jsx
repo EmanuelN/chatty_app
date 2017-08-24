@@ -28,6 +28,7 @@ class Chatbar extends Component {
     e.preventDefault();
       const newUser = e.target.value;
       this.setState({username: newUser});
+      //if user pressed enter submit new name for notification
       if (e.key === 'Enter'){
         this.props.changeName(e.target.value)
       }

@@ -51,6 +51,7 @@ class App extends Component {
       </div>
     );
   }
+  //When a user changes their name
   changeName = (user)=>{
     if (user && user !== this.state.currentUser.name){
       const nameChange = {
@@ -64,13 +65,14 @@ class App extends Component {
     }
   }
   newPost = (content, user)=>{
-
+  //Make sure post is not just made up of spaces
     if (/\S/.test(content)) {
       const newMessage = {
             type: "postMessage",
             username: 'Anonymous',
             content: content
           }
+          //if there is a user logged in the posts are not anonymous
         if(this.state.currentUser.name !== ''){
           newMessage.username = this.state.currentUser.name
         }
